@@ -10,6 +10,7 @@
         max-width: 60rem;
         outline: 0;
         padding: 4rem;
+        white-space: pre-wrap;
       }
     </style>
   </head>
@@ -26,10 +27,17 @@
     function save() {
       window.localStorage.note = note().innerHTML;
     };
+    
+    function tab(e) {
+      if (e.keyCode === 9) {
+        e.preventDefault();
+      }
+    };
 
     window.onload = function() {
       note().innerHTML = window.localStorage.note || '';
       note().onblur = save;
+      note().onkeydown = tab;
       note().focus();
     };
 
