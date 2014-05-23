@@ -20,12 +20,27 @@
   </body>
 
   <script type="text/javascript">
+    // polyfills
+    if (!Date.now) {
+      Date.now = function now() {
+        return new Date().getTime();
+      };
+    }
+  
+    // the code
     function note() {
       return document.getElementById("note");
     };
 
+    function time() {
+      window.sessionStorage.time = Date.now();
+    };
+
     function save() {
-      window.localStorage.note = note().innerHTML;
+      if (window.sessionStorage.time > window.localStorage.time) {
+        window.localStorage.time = window.sessionStorage.time;
+        window.localStorage.note = note().innerHTML;
+      }
     };
     
     function insert(text) {
@@ -49,7 +64,11 @@
       }
     };
     
-    function tab(e) {
+    function keydown(e) {
+      if (document.activeElement && document.activeElement.id === 'note') {
+        time();
+      }
+      
       if (e.keyCode === 9) {
         e.preventDefault();
         insert('	');
@@ -57,9 +76,15 @@
     };
 
     window.onload = function() {
+      // initialize time
+      window.localStorage.time = window.localStorage.time || 0;
+      
+      // load previous stat and setup handlers
       note().innerHTML = window.localStorage.note || '';
       note().onblur = save;
-      note().onkeydown = tab;
+      note().onkeydown = keydown;
+      
+      // focus the note
       note().focus();
     };
 
