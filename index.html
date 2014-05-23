@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Notes</title>
+    <style type="text/css">
+      #note {
+        font-family: Arial;
+        font-size: 1.5rem;
+        line-height: 1.4;
+        margin: 0 auto;
+        max-width: 60rem;
+        outline: 0;
+        padding: 4rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="note" contenteditable />
+  </body>
+
+  <script type="text/javascript">
+    function note() {
+      return document.getElementById("note");
+    };
+
+    function save() {
+      window.localStorage.note = note().innerHTML;
+    };
+
+    window.onload = function() {
+      note().innerHTML = window.localStorage.note || '';
+      note().onblur = save;
+      note().focus();
+    };
+
+    window.onbeforeunload = save;
+  </script>
+</html>
