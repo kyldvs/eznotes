@@ -28,9 +28,31 @@
       window.localStorage.note = note().innerHTML;
     };
     
+    function insert(text) {
+      if (window.getSelection) {
+        var sel = window.getSelection();
+        
+        var range = sel.getRangeAt(0).cloneRange();
+        range.deleteContents();
+        
+        var node = document.createTextNode(text);
+        range.insertNode(node);
+        
+        // Move cursor to the end of the new node
+        range.setStart(node, node.length);
+        range.setEnd(node, node.length);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else if (document.selection && document.selection.createRange) {
+        var range = document.selection.createRange();
+        range.pasteHTML(text);
+      }
+    };
+    
     function tab(e) {
       if (e.keyCode === 9) {
         e.preventDefault();
+        insert('  ');
       }
     };
 
