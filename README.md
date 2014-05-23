@@ -1,0 +1,4 @@
+eznotes
+=======
+
+Lightweight browser notes
