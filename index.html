@@ -41,7 +41,7 @@
   </head>
 
   <body>
-    <div id="note" contenteditable></div>
+    <div id="note" contenteditable>Type stuff here, perfect for a quick note or todo list.</div>
     <footer>We're open source, check out the <a href="http://github.com/kyldvs/eznotes">code</a></footer>
   
     <script type="text/javascript">
@@ -106,11 +106,15 @@
       };
   
       window.onload = function() {
-        // initialize time
+        // initialize the time
         window.localStorage.time = window.localStorage.time || 0;
         
-        // load previous stat and setup handlers
-        note().innerHTML = window.localStorage.note || '';
+        // update the note if there was a previous save state
+        if (window.localStorage.note) {
+          note().innerHTML = window.localStorage.note;
+        }
+        
+        // setup the handlers
         note().onblur = save;
         note().onkeydown = keydown;
         
