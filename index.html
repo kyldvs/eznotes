@@ -27,6 +27,7 @@
       }
     
       #note {
+        color: #fff;
         font-family: Arial;
         font-size: 1.5rem;
         line-height: 1.4;
@@ -117,6 +118,9 @@
         // setup the handlers
         note().onblur = save;
         note().onkeydown = keydown;
+        
+        // show the note
+        note().style = { "color": "#000" };
         
         // focus the note
         note().focus();
