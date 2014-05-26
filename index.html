@@ -33,82 +33,82 @@
   <body>
     <div id="note" contenteditable />
     <footer>We're open source, check out the <a href="http://github.com/kyldvs/eznotes">code</a></footer>
-  </body>
-
-  <script type="text/javascript">
-    // polyfills
-    if (!Date.now) {
-      Date.now = function now() {
-        return new Date().getTime();
-      };
-    }
   
-    // google analytics
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-27801582-2', 'eznot.es');
-    ga('send', 'pageview');
-
-    // the code
-    function note() {
-      return document.getElementById("note");
-    };
-
-    function time() {
-      window.sessionStorage.time = Date.now();
-    };
-
-    function save() {
-      if (window.sessionStorage.time > window.localStorage.time) {
-        window.localStorage.time = window.sessionStorage.time;
-        window.localStorage.note = note().innerHTML;
+    <script type="text/javascript">
+      // polyfills
+      if (!Date.now) {
+        Date.now = function now() {
+          return new Date().getTime();
+        };
       }
-    };
     
-    function insert(text) {
-      if (window.getSelection) {
-        var sel = window.getSelection();
-        
-        var range = sel.getRangeAt(0).cloneRange();
-        range.deleteContents();
-        
-        var node = document.createTextNode(text);
-        range.insertNode(node);
-        
-        // Move cursor to the end of the new node
-        range.setStart(node, node.length);
-        range.setEnd(node, node.length);
-        sel.removeAllRanges();
-        sel.addRange(range);
-      } else if (document.selection && document.selection.createRange) {
-        var range = document.selection.createRange();
-        range.pasteHTML(text);
-      }
-    };
-    
-    function keydown(e) {
-      if (document.activeElement && document.activeElement.id === 'note') {
-        time();
-      }
+      // google analytics
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-27801582-2', 'eznot.es');
+      ga('send', 'pageview');
+  
+      // the code
+      function note() {
+        return document.getElementById("note");
+      };
+  
+      function time() {
+        window.sessionStorage.time = Date.now();
+      };
+  
+      function save() {
+        if (window.sessionStorage.time > window.localStorage.time) {
+          window.localStorage.time = window.sessionStorage.time;
+          window.localStorage.note = note().innerHTML;
+        }
+      };
       
-      if (e.keyCode === 9) {
-        e.preventDefault();
-        insert('	');
-      }
-    };
-
-    window.onload = function() {
-      // initialize time
-      window.localStorage.time = window.localStorage.time || 0;
+      function insert(text) {
+        if (window.getSelection) {
+          var sel = window.getSelection();
+          
+          var range = sel.getRangeAt(0).cloneRange();
+          range.deleteContents();
+          
+          var node = document.createTextNode(text);
+          range.insertNode(node);
+          
+          // Move cursor to the end of the new node
+          range.setStart(node, node.length);
+          range.setEnd(node, node.length);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        } else if (document.selection && document.selection.createRange) {
+          var range = document.selection.createRange();
+          range.pasteHTML(text);
+        }
+      };
       
-      // load previous stat and setup handlers
-      note().innerHTML = window.localStorage.note || '';
-      note().onblur = save;
-      note().onkeydown = keydown;
-      
-      // focus the note
-      note().focus();
-    };
-
-    window.onbeforeunload = save;
-  </script>
+      function keydown(e) {
+        if (document.activeElement && document.activeElement.id === 'note') {
+          time();
+        }
+        
+        if (e.keyCode === 9) {
+          e.preventDefault();
+          insert('	');
+        }
+      };
+  
+      window.onload = function() {
+        // initialize time
+        window.localStorage.time = window.localStorage.time || 0;
+        
+        // load previous stat and setup handlers
+        note().innerHTML = window.localStorage.note || '';
+        note().onblur = save;
+        note().onkeydown = keydown;
+        
+        // focus the note
+        note().focus();
+      };
+  
+      window.onbeforeunload = save;
+    </script>
+  </body>
 </html>
